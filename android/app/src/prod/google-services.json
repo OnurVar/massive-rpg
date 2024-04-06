@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "953331297016",
+    "project_id": "massive-rpg-onurvar",
+    "storage_bucket": "massive-rpg-onurvar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953331297016:android:3e94752571b87fac92a90d",
+        "android_client_info": {
+          "package_name": "com.onurvar.massiverpg.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDlismtj60JqnClsuVJHZs9pE5CBN093Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
