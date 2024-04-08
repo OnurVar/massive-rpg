@@ -1,38 +1,23 @@
-package com.onurvar.massiverpg.signin
+package com.onurvar.massiverpg.data.datasource
 
 import android.app.Application
 import android.content.Intent
 import android.content.IntentSender
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.BeginSignInResult
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.Firebase
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
-import kotlinx.coroutines.tasks.await
 import com.onurvar.massiverpg.R
-import kotlinx.coroutines.CancellationException
-import java.lang.Exception
+import com.onurvar.massiverpg.domain.datasource.FirebaseDataSource
+import com.onurvar.massiverpg.domain.model.User
+import kotlinx.coroutines.tasks.await
 
-class SignInViewModelFactory(
+class FirebaseDataSourceImpl(
     private val application: Application
-) : ViewModelProvider.Factory {
-    fun create(): SignInViewModel {
-        return SignInViewModel(application)
-    }
-}
+) : FirebaseDataSource {
 
-class SignInViewModel(
-    private val application: Application
-) :
-    ViewModel() {
-
-    // Variables
     private val auth = Firebase.auth
     private val signInClient: SignInClient =
         Identity.getSignInClient(application.applicationContext)
@@ -47,20 +32,42 @@ class SignInViewModel(
         .setAutoSelectEnabled(true)
         .build()
 
+    override suspend fun beginSignIn(): IntentSender {
 
-    // Methods
-
-    // Begin the sign in process. It returns an IntentSender if the process is successful.
-    suspend fun beginSignIn(): IntentSender {
+        // Begin the sign in flow
         val result = signInClient.beginSignIn(signInRequest).await()
+        
+        // Return the intent sender
         return result.pendingIntent.intentSender
     }
 
-    // Signs the user in with the given Intent.
-    suspend fun signIn(intent: Intent) {
+    override suspend fun signIn(intent: Intent): User {
+
+        // Get the user's credential from the intent
         val credential = signInClient.getSignInCredentialFromIntent(intent)
+
+        // Get the user's Google ID token
         val googleIdToken = credential.googleIdToken
+
+        // Create a Google credential
         val googleCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
-        auth.signInWithCredential(googleCredential).await()
+
+        // Sign in with the Google credential
+        val signInResult = auth.signInWithCredential(googleCredential).await()
+
+        // Get the signed in user. If the user is null, throw an exception
+        val user = signInResult.user ?: throw Exception("User is not signed in")
+
+        // Return the user
+        return User(user.uid, user.displayName, user.email, user.photoUrl.toString())
+    }
+
+    override fun checkLoggedInUser(): Boolean {
+        return auth.currentUser != null
+    }
+
+    override suspend fun signOut() {
+        signInClient.signOut().await()
+        auth.signOut()
     }
 }

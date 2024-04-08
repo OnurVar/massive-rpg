@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		62BE858A2BC2D477003FC8D8 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 62BE85892BC2D477003FC8D8 /* GoogleSignIn */; };
+		62BE858C2BC2D477003FC8D8 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 62BE858B2BC2D477003FC8D8 /* GoogleSignInSwift */; };
+		62BE858E2BC2D4A5003FC8D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62BE858D2BC2D4A5003FC8D8 /* AppDelegate.swift */; };
 		62D70FB82BC18E6B009DC75E /* MassiveRPGApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D70FB72BC18E6B009DC75E /* MassiveRPGApp.swift */; };
 		62D70FBA2BC18E6B009DC75E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D70FB92BC18E6B009DC75E /* ContentView.swift */; };
 		62D70FBC2BC18E6C009DC75E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62D70FBB2BC18E6C009DC75E /* Assets.xcassets */; };
@@ -16,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		62BE858D2BC2D4A5003FC8D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		62D70FB42BC18E6B009DC75E /* MassiveRPG-Prod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MassiveRPG-Prod.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		62D70FB72BC18E6B009DC75E /* MassiveRPGApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassiveRPGApp.swift; sourceTree = "<group>"; };
 		62D70FB92BC18E6B009DC75E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -30,6 +34,8 @@
 			files = (
 				62D70FCF2BC19223009DC75E /* FirebaseCrashlytics in Frameworks */,
 				62D70FD32BC19424009DC75E /* FirebaseAnalytics in Frameworks */,
+				62BE858A2BC2D477003FC8D8 /* GoogleSignIn in Frameworks */,
+				62BE858C2BC2D477003FC8D8 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				62D70FB72BC18E6B009DC75E /* MassiveRPGApp.swift */,
+				62BE858D2BC2D4A5003FC8D8 /* AppDelegate.swift */,
 				62D70FBB2BC18E6C009DC75E /* Assets.xcassets */,
 			);
 			path = "Supporting Files";
@@ -115,6 +122,8 @@
 			packageProductDependencies = (
 				62D70FCE2BC19223009DC75E /* FirebaseCrashlytics */,
 				62D70FD22BC19424009DC75E /* FirebaseAnalytics */,
+				62BE85892BC2D477003FC8D8 /* GoogleSignIn */,
+				62BE858B2BC2D477003FC8D8 /* GoogleSignInSwift */,
 			);
 			productName = MassiveRPG;
 			productReference = 62D70FB42BC18E6B009DC75E /* MassiveRPG-Prod.app */;
@@ -146,6 +155,7 @@
 			mainGroup = 62D70FAB2BC18E6B009DC75E;
 			packageReferences = (
 				62D70FC52BC1906B009DC75E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				62BE85882BC2D477003FC8D8 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 62D70FB52BC18E6B009DC75E /* Products */;
 			projectDirPath = "";
@@ -199,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62BE858E2BC2D4A5003FC8D8 /* AppDelegate.swift in Sources */,
 				62D70FBA2BC18E6B009DC75E /* ContentView.swift in Sources */,
 				62D70FB82BC18E6B009DC75E /* MassiveRPGApp.swift in Sources */,
 			);
@@ -410,6 +421,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		62BE85882BC2D477003FC8D8 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
 		62D70FC52BC1906B009DC75E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -421,6 +440,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		62BE85892BC2D477003FC8D8 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 62BE85882BC2D477003FC8D8 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		62BE858B2BC2D477003FC8D8 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 62BE85882BC2D477003FC8D8 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
 		62D70FCE2BC19223009DC75E /* FirebaseCrashlytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 62D70FC52BC1906B009DC75E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
