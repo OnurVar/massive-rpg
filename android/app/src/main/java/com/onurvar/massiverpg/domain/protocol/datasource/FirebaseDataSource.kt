@@ -1,4 +1,4 @@
-package com.onurvar.massiverpg.domain.datasource
+package com.onurvar.massiverpg.domain.protocol.datasource
 
 import android.content.Intent
 import android.content.IntentSender
@@ -12,8 +12,8 @@ interface FirebaseDataSource {
     // Signs the user in with the given Intent.
     suspend fun signIn(intent: Intent): User
 
-    // Check if the user is logged in. It returns true if the user is logged in, false otherwise.
-    fun checkLoggedInUser(): Boolean
+    // Check if the user is signed in. It returns true if the user is signed in, false otherwise.
+    fun checkSignedInUser(): Boolean
 
     // Signs the user out.
     suspend fun signOut()

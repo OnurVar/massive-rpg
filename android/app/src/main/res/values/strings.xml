@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MassiveRPG</string>
     <string name="default_web_client_id">953331297016-hoq3cubgagabavo21hietlh2e8asmfgq.apps.googleusercontent.com</string>
-    <string name="logout">Logout</string>
+    <string name="sign_out">Sign Out</string>
     <string name="add">Add</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_root_screen">RootScreen</string>

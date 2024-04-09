@@ -1,7 +1,8 @@
 package com.onurvar.massiverpg.domain.usecase
 
 import android.content.IntentSender
-import com.onurvar.massiverpg.domain.repository.AuthRepository
+import com.onurvar.massiverpg.domain.protocol.repository.AuthRepository
+import com.onurvar.massiverpg.domain.protocol.usecase.BeginSignInUseCase
 import javax.inject.Inject
 
 class BeginSignInUseCaseImpl @Inject constructor(

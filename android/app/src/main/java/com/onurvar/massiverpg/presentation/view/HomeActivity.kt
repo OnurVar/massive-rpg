@@ -5,8 +5,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.onurvar.massiverpg.R
 import com.onurvar.massiverpg.presentation.viewmodel.HomeViewModel
+import com.onurvar.massiverpg.presentation.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -27,7 +29,7 @@ class HomeActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_logout) {
+        if (item.itemId == R.id.action_sign_out) {
             viewModel.signOut(this)
         }
         return super.onOptionsItemSelected(item)

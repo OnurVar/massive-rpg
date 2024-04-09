@@ -10,7 +10,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.onurvar.massiverpg.R
-import com.onurvar.massiverpg.domain.datasource.FirebaseDataSource
+import com.onurvar.massiverpg.domain.protocol.datasource.FirebaseDataSource
 import com.onurvar.massiverpg.domain.model.User
 import kotlinx.coroutines.tasks.await
 
@@ -62,7 +62,7 @@ class FirebaseDataSourceImpl(
         return User(user.uid, user.displayName, user.email, user.photoUrl.toString())
     }
 
-    override fun checkLoggedInUser(): Boolean {
+    override fun checkSignedInUser(): Boolean {
         return auth.currentUser != null
     }
 

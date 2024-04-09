@@ -3,9 +3,9 @@ package com.onurvar.massiverpg.data.repository
 import android.app.Application
 import android.content.Intent
 import android.content.IntentSender
-import com.onurvar.massiverpg.domain.datasource.FirebaseDataSource
+import com.onurvar.massiverpg.domain.protocol.datasource.FirebaseDataSource
 import com.onurvar.massiverpg.domain.model.User
-import com.onurvar.massiverpg.domain.repository.AuthRepository
+import com.onurvar.massiverpg.domain.protocol.repository.AuthRepository
 
 
 class AuthRepositoryImpl(
@@ -19,8 +19,8 @@ class AuthRepositoryImpl(
         return firebaseDataSource.signIn(intent)
     }
 
-    override fun checkLoggedInUser(): Boolean {
-        return firebaseDataSource.checkLoggedInUser()
+    override fun checkSignedInUser(): Boolean {
+        return firebaseDataSource.checkSignedInUser()
     }
 
     override suspend fun signOut() {

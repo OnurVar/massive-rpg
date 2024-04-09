@@ -1,4 +1,4 @@
-package com.onurvar.massiverpg.domain.usecase
+package com.onurvar.massiverpg.domain.protocol.usecase
 
 import android.content.Intent
 import com.onurvar.massiverpg.domain.model.User

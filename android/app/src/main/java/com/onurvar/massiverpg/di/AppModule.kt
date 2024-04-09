@@ -3,15 +3,15 @@ package com.onurvar.massiverpg.di
 import android.app.Application
 import com.onurvar.massiverpg.data.datasource.FirebaseDataSourceImpl
 import com.onurvar.massiverpg.data.repository.AuthRepositoryImpl
-import com.onurvar.massiverpg.domain.datasource.FirebaseDataSource
-import com.onurvar.massiverpg.domain.repository.AuthRepository
-import com.onurvar.massiverpg.domain.usecase.BeginSignInUseCase
+import com.onurvar.massiverpg.domain.protocol.datasource.FirebaseDataSource
+import com.onurvar.massiverpg.domain.protocol.repository.AuthRepository
+import com.onurvar.massiverpg.domain.protocol.usecase.BeginSignInUseCase
 import com.onurvar.massiverpg.domain.usecase.BeginSignInUseCaseImpl
-import com.onurvar.massiverpg.domain.usecase.CheckLoggedInUserUseCase
-import com.onurvar.massiverpg.domain.usecase.CheckLoggedInUserUseCaseImpl
-import com.onurvar.massiverpg.domain.usecase.SignInUseCase
+import com.onurvar.massiverpg.domain.protocol.usecase.CheckSignedInUserUseCase
+import com.onurvar.massiverpg.domain.usecase.CheckSignedInUserUseCaseImpl
+import com.onurvar.massiverpg.domain.protocol.usecase.SignInUseCase
 import com.onurvar.massiverpg.domain.usecase.SignInUseCaseImpl
-import com.onurvar.massiverpg.domain.usecase.SignOutUseCase
+import com.onurvar.massiverpg.domain.protocol.usecase.SignOutUseCase
 import com.onurvar.massiverpg.domain.usecase.SignOutUseCaseImpl
 import com.onurvar.massiverpg.presentation.viewmodel.HomeViewModel
 import com.onurvar.massiverpg.presentation.viewmodel.RootViewModel
@@ -52,8 +52,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCheckLoggedInUserUseCase(authRepository: AuthRepository): CheckLoggedInUserUseCase {
-        return CheckLoggedInUserUseCaseImpl(authRepository)
+    fun provideCheckSignedInUserUseCase(authRepository: AuthRepository): CheckSignedInUserUseCase {
+        return CheckSignedInUserUseCaseImpl(authRepository)
     }
 
     @Provides
@@ -63,13 +63,11 @@ object AppModule {
     }
 
     @Provides
-    @Singleton
-    fun provideRootViewModel(checkLoggedInUserUseCase: CheckLoggedInUserUseCase): RootViewModel {
-        return RootViewModel(checkLoggedInUserUseCase)
+    fun provideRootViewModel(checkSignedInUserUseCase: CheckSignedInUserUseCase): RootViewModel {
+        return RootViewModel(checkSignedInUserUseCase)
     }
 
     @Provides
-    @Singleton
     fun provideHomeViewModel(
         application: Application,
         signOutUseCase: SignOutUseCase
@@ -78,7 +76,6 @@ object AppModule {
     }
 
     @Provides
-    @Singleton
     fun provideSignInViewModel(
         application: Application,
         beginSignInUseCase: BeginSignInUseCase, signInUseCase: SignInUseCase

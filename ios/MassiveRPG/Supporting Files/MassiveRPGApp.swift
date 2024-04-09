@@ -13,7 +13,7 @@ struct MassiveRPGApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootScreenView(viewModel: .init())
         }
     }
 }

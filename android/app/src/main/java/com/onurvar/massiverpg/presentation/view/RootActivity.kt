@@ -21,7 +21,7 @@ class RootActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        // Check if the user is logged in. If the user is logged in, start the HomeActivity. If the user is not logged in, start the SignInActivity.
+        // Check if the user is signed in. If the user is signed in, start the HomeActivity. If the user is not signed in, start the SignInActivity.
         viewModel.checkAndNavigate(this)
     }
 }
