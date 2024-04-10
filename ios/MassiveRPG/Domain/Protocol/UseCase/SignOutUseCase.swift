@@ -6,5 +6,5 @@
 //
 
 protocol SignOutUseCase {
-    func execute() throws
+    func execute() -> Result<Void, Error>
 }

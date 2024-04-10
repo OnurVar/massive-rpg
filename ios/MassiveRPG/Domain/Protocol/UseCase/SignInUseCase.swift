@@ -8,5 +8,5 @@
 import UIKit
 
 protocol SignInUseCase {
-    func execute(viewController: UIViewController) async throws -> User
+    func execute(viewController: UIViewController) async -> Result<User, Error>
 }

@@ -10,13 +10,13 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.onurvar.massiverpg.R
-import com.onurvar.massiverpg.domain.protocol.datasource.FirebaseDataSource
+import com.onurvar.massiverpg.domain.protocol.datasource.FirebaseAuthDataSource
 import com.onurvar.massiverpg.domain.model.User
 import kotlinx.coroutines.tasks.await
 
-class FirebaseDataSourceImpl(
+class FirebaseAuthDataSourceImpl(
     private val application: Application
-) : FirebaseDataSource {
+) : FirebaseAuthDataSource {
 
     private val auth = Firebase.auth
     private val signInClient: SignInClient =

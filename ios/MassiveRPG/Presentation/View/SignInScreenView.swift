@@ -19,7 +19,7 @@ struct SignInScreenView: View {
             Spacer()
             GoogleSignInButton(action: viewModel.onSignInPress)
                 .frame(width: 200, height: 50)
-                .padding(.init(top: 0, leading: 0, bottom: 100, trailing: 0))
+                .customPadding(bottom: .Custom(size: 100))
         }
     }
 }

@@ -10,6 +10,6 @@ import UIKit
 
 protocol AuthRepository {
     func registerSignedInUserPublisher() -> AnyPublisher<User?, Never>
-    func signIn(viewController: UIViewController) async throws -> User
-    func signOut() throws
+    func signIn(viewController: UIViewController) async -> Result<User, Error>
+    func signOut() -> Result<Void, Error>
 }

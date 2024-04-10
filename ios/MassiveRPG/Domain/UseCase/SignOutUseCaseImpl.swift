@@ -18,7 +18,7 @@ class SignOutUseCaseImpl: SignOutUseCase {
 
     // MARK: Methods
 
-    func execute() throws {
-        try authRepository.signOut()
+    func execute() -> Result<Void, Error> {
+        return authRepository.signOut()
     }
 }

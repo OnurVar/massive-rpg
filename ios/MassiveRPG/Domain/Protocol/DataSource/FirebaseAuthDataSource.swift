@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol FirebaseDataSource {
+protocol FirebaseAuthDataSource {
     // Sign in with Google using GoogleSignIn
     func signIn(viewController: UIViewController) async throws -> User
 

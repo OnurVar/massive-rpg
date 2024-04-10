@@ -1,9 +1,9 @@
 package com.onurvar.massiverpg.di
 
 import android.app.Application
-import com.onurvar.massiverpg.data.datasource.FirebaseDataSourceImpl
+import com.onurvar.massiverpg.data.datasource.FirebaseAuthDataSourceImpl
 import com.onurvar.massiverpg.data.repository.AuthRepositoryImpl
-import com.onurvar.massiverpg.domain.protocol.datasource.FirebaseDataSource
+import com.onurvar.massiverpg.domain.protocol.datasource.FirebaseAuthDataSource
 import com.onurvar.massiverpg.domain.protocol.repository.AuthRepository
 import com.onurvar.massiverpg.domain.protocol.usecase.BeginSignInUseCase
 import com.onurvar.massiverpg.domain.usecase.BeginSignInUseCaseImpl
@@ -28,14 +28,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseDataSource(application: Application): FirebaseDataSource {
-        return FirebaseDataSourceImpl(application)
+    fun provideFirebaseAuthDataSource(application: Application): FirebaseAuthDataSource {
+        return FirebaseAuthDataSourceImpl(application)
     }
 
     @Provides
     @Singleton
-    fun provideAuthRepository(firebaseDataSource: FirebaseDataSource): AuthRepository {
-        return AuthRepositoryImpl(firebaseDataSource)
+    fun provideAuthRepository(firebaseAuthDataSource: FirebaseAuthDataSource): AuthRepository {
+        return AuthRepositoryImpl(firebaseAuthDataSource)
     }
 
     @Provides

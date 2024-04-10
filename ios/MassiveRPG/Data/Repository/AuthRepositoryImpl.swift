@@ -11,13 +11,13 @@ import UIKit
 class AuthRepositoryImpl: AuthRepository {
     // MARK: Variables
 
-    let firebaseDataSource: FirebaseDataSource
+    let firebaseAuthDataSource: FirebaseAuthDataSource
     let userContextDataSource: UserContextDataSource
 
     // MARK: Life Cycle
 
-    init(firebaseDataSource: FirebaseDataSource, userContextDataSource: UserContextDataSource) {
-        self.firebaseDataSource = firebaseDataSource
+    init(firebaseAuthDataSource: FirebaseAuthDataSource, userContextDataSource: UserContextDataSource) {
+        self.firebaseAuthDataSource = firebaseAuthDataSource
         self.userContextDataSource = userContextDataSource
     }
 
@@ -27,11 +27,21 @@ class AuthRepositoryImpl: AuthRepository {
         return userContextDataSource.userPublisher
     }
 
-    func signIn(viewController: UIViewController) async throws -> User {
-        return try await firebaseDataSource.signIn(viewController: viewController)
+    func signIn(viewController: UIViewController) async -> Result<User, Error> {
+        do {
+            let user = try await firebaseAuthDataSource.signIn(viewController: viewController)
+            return .success(user)
+        } catch {
+            return .failure(error)
+        }
     }
 
-    func signOut() throws {
-        try firebaseDataSource.signOut()
+    func signOut() -> Result<Void, Error> {
+        do {
+            try firebaseAuthDataSource.signOut()
+            return .success(())
+        } catch {
+            return .failure(error)
+        }
     }
 }

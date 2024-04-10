@@ -9,7 +9,7 @@ import FirebaseAuth
 import FirebaseCore
 import GoogleSignIn
 
-class FirebaseDataSourceImpl: FirebaseDataSource {
+class FirebaseAuthDataSourceImpl: FirebaseAuthDataSource {
     @MainActor
     func signIn(viewController: UIViewController) async throws -> User {
         return try await withCheckedThrowingContinuation { continuation in
@@ -19,12 +19,12 @@ class FirebaseDataSourceImpl: FirebaseDataSource {
                 guard let signInResult = signInResult else {
                     // If not, check if we received an error
                     if let signInError = signInError {
-                        continuation.resume(throwing: FirebaseDataSourceError.GoogleSignInError(signInError))
+                        continuation.resume(throwing: FirebaseAuthDataSourceError.GoogleSignInError(signInError))
                         return
                     }
 
                     // If we didn't receive a result or an error, we have an unknown error
-                    continuation.resume(throwing: FirebaseDataSourceError.Unknown)
+                    continuation.resume(throwing: FirebaseAuthDataSourceError.Unknown)
                     return
                 }
 
@@ -33,7 +33,7 @@ class FirebaseDataSourceImpl: FirebaseDataSource {
 
                 // Get the ID token
                 guard let idToken = user.idToken?.tokenString else {
-                    continuation.resume(throwing: FirebaseDataSourceError.IdTokenNotFound)
+                    continuation.resume(throwing: FirebaseAuthDataSourceError.IdTokenNotFound)
                     return
                 }
 
@@ -46,11 +46,11 @@ class FirebaseDataSourceImpl: FirebaseDataSource {
                     guard let authResult else {
                         // If not, check if we received an error
                         if let authError {
-                            continuation.resume(throwing: FirebaseDataSourceError.FirebaseSignInError(authError))
+                            continuation.resume(throwing: FirebaseAuthDataSourceError.FirebaseSignInError(authError))
                             return
                         }
                         // If we didn't receive a result or an error, we have an unknown error
-                        continuation.resume(throwing: FirebaseDataSourceError.Unknown)
+                        continuation.resume(throwing: FirebaseAuthDataSourceError.Unknown)
                         return
                     }
 
@@ -73,7 +73,7 @@ class FirebaseDataSourceImpl: FirebaseDataSource {
     }
 }
 
-enum FirebaseDataSourceError: Error {
+enum FirebaseAuthDataSourceError: Error {
     case GoogleSignInError(Error)
     case FirebaseSignInError(Error)
     case IdTokenNotFound

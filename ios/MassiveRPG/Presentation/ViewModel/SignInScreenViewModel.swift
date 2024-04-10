@@ -23,11 +23,15 @@ extension SignInScreenView {
         func onSignInPress() {
             guard let topMostController = UIViewController.topMostController else { return }
             Task {
-                do {
-                    let user = try await self.signInUseCase.execute(viewController: topMostController)
-                    MassiveToast.makeToast(message: "Welcome \(user.name ?? "")")
-                } catch {
-                    MassiveToast.makeToast(message: error.localizedDescription)
+                let result = await signInUseCase.execute(viewController: topMostController)
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    switch result {
+                    case .success(let user):
+                        MassiveToast.makeToast(message: "Welcome \(user.name ?? "")")
+                    case .failure(let error):
+                        MassiveToast.makeToast(message: error.localizedDescription)
+                    }
                 }
             }
         }
