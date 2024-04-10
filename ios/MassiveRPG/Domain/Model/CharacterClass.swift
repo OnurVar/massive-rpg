@@ -13,7 +13,7 @@ enum CharacterClass: String, Codable {
     case Bard = "bard"
 
     var title: String {
-        self.rawValue.uppercased()
+        self.rawValue.capitalized
     }
 
     static var `default`: CharacterClass = .Fighter

@@ -24,8 +24,7 @@ extension SignInScreenView {
             guard let topMostController = UIViewController.topMostController else { return }
             Task {
                 let result = await signInUseCase.execute(viewController: topMostController)
-                await MainActor.run { [weak self] in
-                    guard let self else { return }
+                await MainActor.run {
                     switch result {
                     case .success(let user):
                         MassiveToast.makeToast(message: "Welcome \(user.name ?? "")")

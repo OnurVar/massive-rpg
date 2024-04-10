@@ -61,4 +61,8 @@ extension Container {
     var deleteCharacterUseCase: Factory<DeleteCharacterUseCase> {
         Factory(self) { DeleteCharacterUseCaseImpl(characterRepository: self.characterRepository()) }
     }
+
+    var updateCharacterUseCase: Factory<UpdateCharacterUseCase> {
+        Factory(self) { UpdateCharacterUseCaseImpl(characterRepository: self.characterRepository()) }
+    }
 }

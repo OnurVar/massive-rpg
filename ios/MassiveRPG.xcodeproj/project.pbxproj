@@ -71,6 +71,7 @@
 		629455F52BC63A6300CA9CF4 /* BasicTextFieldViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629455F42BC63A6300CA9CF4 /* BasicTextFieldViewModel.swift */; };
 		629455F72BC63CB500CA9CF4 /* CharacterRace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629455F62BC63CB500CA9CF4 /* CharacterRace.swift */; };
 		629455F92BC63D1B00CA9CF4 /* CharacterClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629455F82BC63D1B00CA9CF4 /* CharacterClass.swift */; };
+		62A15DA82BC67719004F55C2 /* CharacterStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A15DA72BC67719004F55C2 /* CharacterStats.swift */; };
 		62BE858A2BC2D477003FC8D8 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 62BE85892BC2D477003FC8D8 /* GoogleSignIn */; };
 		62BE858C2BC2D477003FC8D8 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 62BE858B2BC2D477003FC8D8 /* GoogleSignInSwift */; };
 		62BE858E2BC2D4A5003FC8D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62BE858D2BC2D4A5003FC8D8 /* AppDelegate.swift */; };
@@ -79,6 +80,8 @@
 		62D70FCD2BC19140009DC75E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62D70FCC2BC19140009DC75E /* GoogleService-Info.plist */; };
 		62D70FCF2BC19223009DC75E /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 62D70FCE2BC19223009DC75E /* FirebaseCrashlytics */; };
 		62D70FD32BC19424009DC75E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 62D70FD22BC19424009DC75E /* FirebaseAnalytics */; };
+		62E698CE2BC682B1005F56DD /* CharacterStatsChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62E698CD2BC682B1005F56DD /* CharacterStatsChecker.swift */; };
+		62E698D02BC68E8E005F56DD /* StatCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62E698CF2BC68E8E005F56DD /* StatCalculator.swift */; };
 		62F35A6E2BC4804D00AEDBCB /* AppModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F35A6D2BC4804D00AEDBCB /* AppModule.swift */; };
 		62F35A732BC480E700AEDBCB /* FirebaseAuthDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F35A722BC480E700AEDBCB /* FirebaseAuthDataSource.swift */; };
 		62F35A752BC480FD00AEDBCB /* FirebaseAuthDataSourceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F35A742BC480FD00AEDBCB /* FirebaseAuthDataSourceImpl.swift */; };
@@ -147,11 +150,14 @@
 		629455F42BC63A6300CA9CF4 /* BasicTextFieldViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicTextFieldViewModel.swift; sourceTree = "<group>"; };
 		629455F62BC63CB500CA9CF4 /* CharacterRace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterRace.swift; sourceTree = "<group>"; };
 		629455F82BC63D1B00CA9CF4 /* CharacterClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterClass.swift; sourceTree = "<group>"; };
+		62A15DA72BC67719004F55C2 /* CharacterStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterStats.swift; sourceTree = "<group>"; };
 		62BE858D2BC2D4A5003FC8D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		62D70FB42BC18E6B009DC75E /* MassiveRPG-Prod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MassiveRPG-Prod.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		62D70FB72BC18E6B009DC75E /* MassiveRPGApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassiveRPGApp.swift; sourceTree = "<group>"; };
 		62D70FBB2BC18E6C009DC75E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		62D70FCC2BC19140009DC75E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		62E698CD2BC682B1005F56DD /* CharacterStatsChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterStatsChecker.swift; sourceTree = "<group>"; };
+		62E698CF2BC68E8E005F56DD /* StatCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCalculator.swift; sourceTree = "<group>"; };
 		62F35A6D2BC4804D00AEDBCB /* AppModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModule.swift; sourceTree = "<group>"; };
 		62F35A722BC480E700AEDBCB /* FirebaseAuthDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthDataSource.swift; sourceTree = "<group>"; };
 		62F35A742BC480FD00AEDBCB /* FirebaseAuthDataSourceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthDataSourceImpl.swift; sourceTree = "<group>"; };
@@ -447,6 +453,9 @@
 				625BABD32BC607E100ECE025 /* Character.swift */,
 				629455F82BC63D1B00CA9CF4 /* CharacterClass.swift */,
 				629455F62BC63CB500CA9CF4 /* CharacterRace.swift */,
+				62A15DA72BC67719004F55C2 /* CharacterStats.swift */,
+				62E698CF2BC68E8E005F56DD /* StatCalculator.swift */,
+				62E698CD2BC682B1005F56DD /* CharacterStatsChecker.swift */,
 				629455A52BC60CD700CA9CF4 /* FirestoreCollectionType.swift */,
 				629455C42BC61FFD00CA9CF4 /* Loadable.swift */,
 				629455AB2BC6120500CA9CF4 /* MassiveRPGAppError.swift */,
@@ -653,6 +662,7 @@
 				621D1A1C2BC58B8C0044A44F /* SignInUseCaseImpl.swift in Sources */,
 				629455C52BC61FFD00CA9CF4 /* Loadable.swift in Sources */,
 				629455B32BC61D0100CA9CF4 /* GetCharacterUseCase.swift in Sources */,
+				62E698D02BC68E8E005F56DD /* StatCalculator.swift in Sources */,
 				629455C12BC61EBE00CA9CF4 /* DeleteCharacterUseCaseImpl.swift in Sources */,
 				629455B12BC61CE400CA9CF4 /* GetCharacterListUseCase.swift in Sources */,
 				625BABCD2BC5A59700ECE025 /* SignOutUseCaseImpl.swift in Sources */,
@@ -661,6 +671,7 @@
 				621D1A022BC56CF70044A44F /* User.swift in Sources */,
 				629455E72BC635B800CA9CF4 /* InputBackgroundModifier.swift in Sources */,
 				625BABD22BC5EE9200ECE025 /* Toast.swift in Sources */,
+				62E698CE2BC682B1005F56DD /* CharacterStatsChecker.swift in Sources */,
 				629455E92BC635D800CA9CF4 /* ColorTheme.swift in Sources */,
 				629455CE2BC627D300CA9CF4 /* CharacterListCellView.swift in Sources */,
 				629455DD2BC62AE700CA9CF4 /* BasicEmptyView.swift in Sources */,
@@ -689,6 +700,7 @@
 				629455F32BC63A5B00CA9CF4 /* BasicTextFieldView.swift in Sources */,
 				629455C92BC6266600CA9CF4 /* CharacterListView.swift in Sources */,
 				629455B52BC61D5700CA9CF4 /* CreateCharacterUseCase.swift in Sources */,
+				62A15DA82BC67719004F55C2 /* CharacterStats.swift in Sources */,
 				620B85AA2BC490B500470743 /* RootScreenViewModel.swift in Sources */,
 				620B85BB2BC4CEC800470743 /* SignInScreenViewModel.swift in Sources */,
 				62F35A752BC480FD00AEDBCB /* FirebaseAuthDataSourceImpl.swift in Sources */,
@@ -826,7 +838,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_ASSET_PATHS = "\"MassiveRPG/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MassiveRPG/Environment/Prod/MassiveRPG-Prod-Info.plist";
@@ -857,7 +868,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_ASSET_PATHS = "\"MassiveRPG/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MassiveRPG/Environment/Prod/MassiveRPG-Prod-Info.plist";

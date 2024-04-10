@@ -12,7 +12,7 @@ enum CharacterRace: String, Codable {
     case Orc = "orc"
 
     var title: String {
-        self.rawValue.uppercased()
+        self.rawValue.capitalized
     }
 
     static var `default`: CharacterRace = .Elf

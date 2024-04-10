@@ -36,17 +36,45 @@ struct UpsertCharacterScreenView: View {
                     .pickerStyle(.menu)
 
                     Section {
-                        Stepper("Strength: \(viewModel.strength)",
-                                value: $viewModel.strength,
+                        Stepper("Strength: \(viewModel.calculatedStrength)",
+                                value: $viewModel.statStrength,
                                 in: 0 ... 20,
                                 step: 1)
+
+                        Stepper("Dexterity: \(viewModel.calculatedDexterity)",
+                                value: $viewModel.statDexterity,
+                                in: 0 ... 20,
+                                step: 1)
+
+                        Stepper("Constitution: \(viewModel.calculatedConstitution)",
+                                value: $viewModel.statConstitution,
+                                in: 0 ... 20,
+                                step: 1)
+
+                        Stepper("Wisdom: \(viewModel.calculatedWisdom)",
+                                value: $viewModel.statWisdom,
+                                in: 0 ... 20,
+                                step: 1)
+
+                        Stepper("Intelligence: \(viewModel.calculatedIntelligence)",
+                                value: $viewModel.statIntelligence,
+                                in: 0 ... 20,
+                                step: 1)
+
+                        Stepper("Charisma: \(viewModel.calculatedCharisma)", value: $viewModel.statCharisma, in: 0 ... 20, step: 1)
                     }
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button("Sign Out", action: {}))
+            .navigationBarItems(trailing: Button("Save", action: viewModel.onSavePress))
             .navigationBarItems(leading: Text("MassiveRPG"))
             .toolbarBackground(Color.cBackground, for: .navigationBar)
+            .onChange(of: viewModel.statStrength, initial: false, viewModel.onStrengthChange)
+            .onChange(of: viewModel.statDexterity, initial: false, viewModel.onDexterityChange)
+            .onChange(of: viewModel.statConstitution, initial: false, viewModel.onConstitutionChange)
+            .onChange(of: viewModel.statWisdom, initial: false, viewModel.onWisdomChange)
+            .onChange(of: viewModel.statIntelligence, initial: false, viewModel.onIntelligenceChange)
+            .onChange(of: viewModel.statCharisma, initial: false, viewModel.onCharismaChange)
         }
     }
 }
