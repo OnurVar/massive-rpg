@@ -18,5 +18,4 @@ interface FirebaseAuthDataSource {
     // Signs the user out.
     suspend fun signOut()
 
-    fun getUserId(): String?
 }

@@ -71,8 +71,4 @@ class FirebaseAuthDataSourceImpl(
         auth.signOut()
     }
 
-    override fun getUserId(): String? {
-        return auth.currentUser?.uid
-    }
-
 }

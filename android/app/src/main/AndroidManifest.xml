@@ -28,7 +28,8 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".presentation.HomeScreen.HomeScreenView"
-            android:exported="false" />
+            android:exported="false"
+            android:label="My Character" />
     </application>
 
 </manifest>

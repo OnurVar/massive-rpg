@@ -15,14 +15,22 @@ class FirebaseFirestoreDataSourceImpl: FirebaseFirestoreDataSource {
             .document(userId)
             .collection(FirestoreCollectionType.Characters.rawValue)
             .whereField("is_deleted", isEqualTo: false)
+            .order(by: "updated_at", descending: true)
             .getDocuments()
 
         var characters: [Character] = []
         for document in querySnapshot.documents {
-            guard let character = try? document.data(as: Character.self) else {
+            do {
+                let character = try document.data(as: Character.self)
+                characters.append(character)
+            } catch {
+                print(error)
                 throw FirebaseFirestoreDataSourceError.CharacterParseError
             }
-            characters.append(character)
+//            guard let character = try? document.data(as: Character.self) else {
+//                throw FirebaseFirestoreDataSourceError.CharacterParseError
+//            }
+//            characters.append(character)
         }
         return characters
     }

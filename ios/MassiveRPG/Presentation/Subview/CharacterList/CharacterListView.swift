@@ -55,14 +55,11 @@ struct CharacterListView: View {
     func ListView(data: [Character]) -> some View {
         List {
             ForEach(data) { item in
-                NavigationLink {
-                    CharacterDetailScreenView(viewModel: .init(character: item))
-                } label: {
-                    CharacterListCellView(character: item, onCharacterDelete: viewModel.onCharacterDelete)
-                }
-                .listRowBackground(Color.cListBackground)
+                CharacterListCellView(character: item, onCharacterDelete: viewModel.onCharacterDelete)
             }
         }
+        .listRowSeparator(.hidden)
+        .listStyle(.inset)
     }
 }
 

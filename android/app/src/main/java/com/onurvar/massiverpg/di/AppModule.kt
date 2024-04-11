@@ -3,10 +3,12 @@ package com.onurvar.massiverpg.di
 import android.app.Application
 import com.onurvar.massiverpg.data.datasource.FirebaseAuthDataSourceImpl
 import com.onurvar.massiverpg.data.datasource.FirebaseFirestoreDataSourceImpl
+import com.onurvar.massiverpg.data.datasource.UserContextDataSourceImpl
 import com.onurvar.massiverpg.data.repository.AuthRepositoryImpl
 import com.onurvar.massiverpg.data.repository.CharacterRepositoryImpl
 import com.onurvar.massiverpg.domain.protocol.datasource.FirebaseAuthDataSource
 import com.onurvar.massiverpg.domain.protocol.datasource.FirebaseFirestoreDataSource
+import com.onurvar.massiverpg.domain.protocol.datasource.UserContextDataSource
 import com.onurvar.massiverpg.domain.protocol.repository.AuthRepository
 import com.onurvar.massiverpg.domain.protocol.repository.CharacterRepository
 import com.onurvar.massiverpg.domain.protocol.usecase.BeginSignInUseCase
@@ -30,7 +32,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Provides
     fun provideFirebaseAuthDataSource(application: Application): FirebaseAuthDataSource {
         return FirebaseAuthDataSourceImpl(application)
@@ -42,16 +43,21 @@ object AppModule {
     }
 
     @Provides
+    fun provideUserContextDataSource(): UserContextDataSource {
+        return UserContextDataSourceImpl()
+    }
+
+    @Provides
     fun provideAuthRepository(firebaseAuthDataSource: FirebaseAuthDataSource): AuthRepository {
         return AuthRepositoryImpl(firebaseAuthDataSource)
     }
 
     @Provides
     fun provideCharacterRepository(
-        firebaseAuthDataSource: FirebaseAuthDataSource,
-        firebaseFirestoreDataSource: FirebaseFirestoreDataSource
+        firebaseFirestoreDataSource: FirebaseFirestoreDataSource,
+        userContextDataSource: UserContextDataSource
     ): CharacterRepository {
-        return CharacterRepositoryImpl(firebaseAuthDataSource, firebaseFirestoreDataSource)
+        return CharacterRepositoryImpl(firebaseFirestoreDataSource, userContextDataSource)
     }
 
     @Provides
@@ -87,9 +93,10 @@ object AppModule {
     @Provides
     fun provideHomeViewModel(
         application: Application,
+        getCharacterListUseCase: GetCharacterListUseCase,
         signOutUseCase: SignOutUseCase
     ): HomeScreenViewModel {
-        return HomeScreenViewModel(application, signOutUseCase)
+        return HomeScreenViewModel(application, getCharacterListUseCase, signOutUseCase)
     }
 
     @Provides
