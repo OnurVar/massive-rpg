@@ -36,7 +36,7 @@ class FirebaseAuthDataSourceImpl(
 
         // Begin the sign in flow
         val result = signInClient.beginSignIn(signInRequest).await()
-        
+
         // Return the intent sender
         return result.pendingIntent.intentSender
     }
@@ -70,4 +70,5 @@ class FirebaseAuthDataSourceImpl(
         signInClient.signOut().await()
         auth.signOut()
     }
+
 }

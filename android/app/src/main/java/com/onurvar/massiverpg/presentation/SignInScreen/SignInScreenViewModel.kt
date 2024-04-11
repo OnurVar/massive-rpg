@@ -1,4 +1,4 @@
-package com.onurvar.massiverpg.presentation.viewmodel
+package com.onurvar.massiverpg.presentation.SignInScreen
 
 import android.app.Application
 import android.content.Intent
@@ -11,18 +11,13 @@ import androidx.lifecycle.viewModelScope
 import com.onurvar.massiverpg.R
 import com.onurvar.massiverpg.domain.protocol.usecase.BeginSignInUseCase
 import com.onurvar.massiverpg.domain.protocol.usecase.SignInUseCase
-import com.onurvar.massiverpg.presentation.view.HomeActivity
-import com.onurvar.massiverpg.presentation.view.SignInActivity
+import com.onurvar.massiverpg.presentation.HomeScreen.HomeScreenView
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
+class SignInScreenViewModel @Inject constructor(
     private val application: Application,
     private val beginSignInUseCase: BeginSignInUseCase,
     private val signInUseCase: SignInUseCase
@@ -36,7 +31,7 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun handleSignInResult(activity: SignInActivity, result: ActivityResult) {
+    fun handleSignInResult(activity: SignInScreenView, result: ActivityResult) {
         viewModelScope.launch {
             try {
                 val signInIntent =
@@ -48,7 +43,7 @@ class SignInViewModel @Inject constructor(
                     Toast.LENGTH_LONG
                 ).show()
 
-                val intent = Intent(activity, HomeActivity::class.java)
+                val intent = Intent(activity, HomeScreenView::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 activity.startActivity(intent)
                 activity.overridePendingTransition(

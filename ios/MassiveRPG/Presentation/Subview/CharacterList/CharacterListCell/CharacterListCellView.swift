@@ -21,14 +21,22 @@ struct CharacterListCellView: View {
     // MARK: Body Component
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(viewModel.title)
-                .labelStyle(.titleAndIcon)
-                .font(.title2)
-            Text(viewModel.subtitle)
-                .font(.callout)
+        NavigationLink {
+            CharacterDetailScreenView(viewModel: .init(character: viewModel.character))
+        } label: {
+            VStack(alignment: .leading, spacing: Size.Small) {
+                Text(viewModel.title)
+                    .labelStyle(.titleAndIcon)
+                    .font(.system(size: 18))
+                Text(viewModel.subtitle)
+                    .font(.system(size: 14))
+            }
+            .customPadding(top: .Small, leading: .Medium, bottom: .Small)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .customPadding(trailing: .Medium)
+        .background(Color.cInputBackground)
+        .cornerRadius(Size.Small)
+        .listRowSeparator(.hidden)
         .swipeActions {
             Button("Edit", action: { stateViewModel.onEditPress(character: viewModel.character) }).tint(.gray)
             Button("Delete", action: { stateViewModel.onDeletePress() }).tint(.red)
@@ -44,5 +52,9 @@ struct CharacterListCellView: View {
 }
 
 #Preview("Example 1") {
-    CharacterListCellView(character: .example1, onCharacterDelete: {})
+    List {
+        CharacterListCellView(character: .example1, onCharacterDelete: {})
+    }
+    .listRowSeparator(.hidden)
+    .listStyle(.inset)
 }

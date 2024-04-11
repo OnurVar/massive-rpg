@@ -1,25 +1,24 @@
-package com.onurvar.massiverpg.presentation.viewmodel
+package com.onurvar.massiverpg.presentation.RootScreen
 
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import com.onurvar.massiverpg.R
 import com.onurvar.massiverpg.domain.protocol.usecase.CheckSignedInUserUseCase
-import com.onurvar.massiverpg.presentation.view.HomeActivity
-import com.onurvar.massiverpg.presentation.view.RootActivity
-import com.onurvar.massiverpg.presentation.view.SignInActivity
+import com.onurvar.massiverpg.presentation.HomeScreen.HomeScreenView
+import com.onurvar.massiverpg.presentation.SignInScreen.SignInScreenView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class RootViewModel @Inject constructor(
+class RootScreenViewModel @Inject constructor(
     private val checkSignedInUserUseCase: CheckSignedInUserUseCase
 ) : ViewModel() {
 
-    fun checkAndNavigate(activity: RootActivity) {
+    fun checkAndNavigate(activity: RootScreenView) {
         val intent = if (checkSignedInUserUseCase.execute()) {
-            Intent(activity, HomeActivity::class.java)
+            Intent(activity, HomeScreenView::class.java)
         } else {
-            Intent(activity, SignInActivity::class.java)
+            Intent(activity, SignInScreenView::class.java)
         }
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         activity.startActivity(intent)

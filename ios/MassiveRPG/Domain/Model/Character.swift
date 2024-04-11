@@ -9,10 +9,10 @@ import FirebaseFirestore
 
 struct Character: Codable, Identifiable {
     @DocumentID var id: String?
-    @ExplicitNull var name: String?
-    @ExplicitNull var cRace: CharacterRace?
-    @ExplicitNull var cClass: CharacterClass?
-    @ExplicitNull var cStats: CharacterStats?
+    var name: String?
+    var cRace: CharacterRace?
+    var cClass: CharacterClass?
+    var cStats: CharacterStats?
     var isDeleted: Bool
     @ServerTimestamp var createdAt: Timestamp?
     @ServerTimestamp var updatedAt: Timestamp?
@@ -20,9 +20,9 @@ struct Character: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case id,
              name,
-             cRace = "race",
-             cClass = "class",
-             cStats = "stats",
+             cRace,
+             cClass,
+             cStats,
              createdAt = "created_at",
              updatedAt = "updated_at",
              isDeleted = "is_deleted"
