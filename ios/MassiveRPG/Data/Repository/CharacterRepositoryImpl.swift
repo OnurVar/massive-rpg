@@ -26,8 +26,8 @@ class CharacterRepositoryImpl: CharacterRepository {
         }
 
         do {
+            // Get character list
             let characters = try await firebaseFirestoreDataSource.getCharacterList(forUserId: userId)
-            print(characters)
             return .success(characters)
         } catch {
             return .failure(error)

@@ -29,6 +29,7 @@ class AuthRepositoryImpl: AuthRepository {
 
     func signIn(viewController: UIViewController) async -> Result<User, Error> {
         do {
+            // Sign in
             let user = try await firebaseAuthDataSource.signIn(viewController: viewController)
             return .success(user)
         } catch {
@@ -38,6 +39,7 @@ class AuthRepositoryImpl: AuthRepository {
 
     func signOut() -> Result<Void, Error> {
         do {
+            // Sign out
             try firebaseAuthDataSource.signOut()
             return .success(())
         } catch {

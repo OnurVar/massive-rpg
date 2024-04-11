@@ -20,17 +20,18 @@ class FirebaseFirestoreDataSourceImpl: FirebaseFirestoreDataSource {
 
         var characters: [Character] = []
         for document in querySnapshot.documents {
-            do {
-                let character = try document.data(as: Character.self)
-                characters.append(character)
-            } catch {
-                print(error)
+            // Enable this for debugging purposes
+            // do {
+            //     let character = try document.data(as: Character.self)
+            //     characters.append(character)
+            // } catch {
+            //     print(error)
+            //     throw FirebaseFirestoreDataSourceError.CharacterParseError
+            // }
+            guard let character = try? document.data(as: Character.self) else {
                 throw FirebaseFirestoreDataSourceError.CharacterParseError
             }
-//            guard let character = try? document.data(as: Character.self) else {
-//                throw FirebaseFirestoreDataSourceError.CharacterParseError
-//            }
-//            characters.append(character)
+            characters.append(character)
         }
         return characters
     }

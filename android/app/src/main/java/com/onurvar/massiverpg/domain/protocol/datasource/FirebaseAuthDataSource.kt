@@ -5,7 +5,6 @@ import android.content.IntentSender
 import com.onurvar.massiverpg.domain.model.User
 
 interface FirebaseAuthDataSource {
-
     // Begin the sign in process. It returns an IntentSender if the process is successful.
     suspend fun beginSignIn(): IntentSender
 
