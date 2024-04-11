@@ -26,8 +26,13 @@ class SignInScreenViewModel @Inject constructor(
 
     fun beginSignIn(signInResultLauncher: ActivityResultLauncher<IntentSenderRequest>) {
         viewModelScope.launch {
-            val intentSender = beginSignInUseCase.execute()
-            signInResultLauncher.launch(IntentSenderRequest.Builder(intentSender).build())
+            try {
+                val intentSender = beginSignInUseCase.execute()
+                signInResultLauncher.launch(IntentSenderRequest.Builder(intentSender).build())
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(application.applicationContext, e.message, Toast.LENGTH_LONG).show()
+            }
         }
     }
 
