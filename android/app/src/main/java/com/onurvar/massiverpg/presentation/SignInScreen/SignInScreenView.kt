@@ -1,19 +1,16 @@
-package com.onurvar.massiverpg.presentation.view
+package com.onurvar.massiverpg.presentation.SignInScreen
 
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.SignInButton
-import com.onurvar.massiverpg.MassiveRPGApp
 import com.onurvar.massiverpg.R
-import com.onurvar.massiverpg.presentation.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignInActivity : AppCompatActivity() {
-    private val viewModel: SignInViewModel by viewModels()
+class SignInScreenView : AppCompatActivity() {
+    private val viewModel: SignInScreenViewModel by viewModels()
 
     private val signInResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->

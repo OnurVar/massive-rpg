@@ -1,17 +1,15 @@
-package com.onurvar.massiverpg.presentation.view
+package com.onurvar.massiverpg.presentation.RootScreen
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.onurvar.massiverpg.R
-import com.onurvar.massiverpg.presentation.viewmodel.RootViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class RootActivity : AppCompatActivity() {
-    private val viewModel: RootViewModel by viewModels()
+class RootScreenView : AppCompatActivity() {
+    private val viewModel: RootScreenViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +19,7 @@ class RootActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        // Check if the user is signed in. If the user is signed in, start the HomeActivity. If the user is not signed in, start the SignInActivity.
+        // Check if the user is signed in. If the user is signed in, start the HomeScreen. If the user is not signed in, start the SignInActivity.
         viewModel.checkAndNavigate(this)
     }
 }

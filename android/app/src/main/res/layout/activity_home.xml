@@ -6,6 +6,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.view.HomeActivity">
-
+    tools:context=".presentation.HomeScreen.HomeScreenView">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 </androidx.constraintlayout.widget.ConstraintLayout>

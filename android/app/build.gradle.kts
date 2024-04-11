@@ -112,6 +112,7 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation("com.google.firebase:firebase-firestore")
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
