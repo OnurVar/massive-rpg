@@ -16,19 +16,15 @@ struct HomeScreenView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
-                VStack {
-                    CharacterListView(viewModel: .init(result: viewModel.resultCharacterList))
-                }
-                PlusButton
+            VStack {
+                CharacterListView(viewModel: .init(result: viewModel.resultCharacterList, onRefresh: viewModel.loadCharacterList))
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button("Sign Out", action: viewModel.onSignOutPress))
-            .navigationBarItems(leading: Text("MassiveRPG"))
-            .toolbarBackground(Color.cBackground, for: .navigationBar)
+            .navigationTitle("My Characters")
+            .navigationBarItems(leading: Button("Sign Out", action: viewModel.onSignOutPress))
+            .navigationBarItems(trailing: Button("", systemImage: "plus", action: viewModel.onPlusPress))
             .onScreenAppear(perform: viewModel.onAppear)
             .fullScreenCover(item: $viewModel.itemUpsertCharacterScreenModel) { item in
-                UpsertCharacterScreenView(viewModel: .init(model: item))
+                UpsertCharacterScreenView(viewModel: .init(model: item, onCharacterChange: viewModel.onCharacterChange))
             }
         }
     }

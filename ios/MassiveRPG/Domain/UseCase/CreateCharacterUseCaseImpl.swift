@@ -18,7 +18,7 @@ class CreateCharacterUseCaseImpl: CreateCharacterUseCase {
 
     // MARK: Methods
 
-    func execute(character: Character) async -> Result<Void, Error> {
-        return await characterRepository.create(character: character)
+    func execute(form: CharacterForm) async -> Result<Void, any Error> {
+        return await characterRepository.create(form: form)
     }
 }

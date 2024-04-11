@@ -6,5 +6,5 @@
 //
 
 protocol CreateCharacterUseCase {
-    func execute(character: Character) async -> Result<Void, Error>
+    func execute(form: CharacterForm) async -> Result<Void, Error>
 }

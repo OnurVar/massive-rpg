@@ -17,13 +17,16 @@ extension HomeScreenView {
 
         @Published var resultCharacterList: Loadable<[Character]> = .empty
         @Published var itemUpsertCharacterScreenModel: UpsertCharacterScreenView.Model? = nil
+        @Published var searchText: String = ""
 
         // MARK: Life Cycle
 
         init() {}
 
         func onAppear() {
-            loadCharacterList()
+            Task {
+                await loadCharacterList()
+            }
         }
 
         // MARK: Action Methods
@@ -44,25 +47,30 @@ extension HomeScreenView {
             }
         }
 
+        func onCharacterChange() {
+            Task {
+                await loadCharacterList()
+            }
+        }
+
         // MARK: Methods
 
-        func loadCharacterList() {
-            resultCharacterList = .content(data: [], isLoading: true)
+        @MainActor
+        func loadCharacterList() async {
+            resultCharacterList = .content(data: resultCharacterList.data ?? [], isLoading: true)
 
-            Task {
-                let result = await getCharacterListUseCase.execute()
-                await MainActor.run { [weak self] in
-                    guard let self else { return }
-                    switch result {
-                    case .success(let data):
-                        guard !data.isEmpty else {
-                            self.resultCharacterList = .empty
-                            return
-                        }
-                        self.resultCharacterList = .content(data: data, isLoading: false)
-                    case .failure(let error):
-                        self.resultCharacterList = .failed(error: error)
+            let result = await getCharacterListUseCase.execute()
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                switch result {
+                case .success(let data):
+                    guard !data.isEmpty else {
+                        self.resultCharacterList = .empty
+                        return
                     }
+                    self.resultCharacterList = .content(data: data, isLoading: false)
+                case .failure(let error):
+                    self.resultCharacterList = .failed(error: error)
                 }
             }
         }

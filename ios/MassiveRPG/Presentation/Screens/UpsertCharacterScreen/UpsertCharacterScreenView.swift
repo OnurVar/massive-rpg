@@ -10,6 +10,7 @@ import SwiftUI
 struct UpsertCharacterScreenView: View {
     // MARK: Variables
 
+    @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel: ViewModel
 
     // MARK: Body Component
@@ -21,6 +22,7 @@ struct UpsertCharacterScreenView: View {
                     Section {
                         TextField("Name", text: $viewModel.name)
                     }
+                    .listRowBackground(Color.cListBackground)
                     Section {
                         Picker("Race", selection: $viewModel.cRace) {
                             ForEach(CharacterRace.list, id: \.self) {
@@ -34,41 +36,45 @@ struct UpsertCharacterScreenView: View {
                         }
                     }
                     .pickerStyle(.menu)
+                    .listRowBackground(Color.cListBackground)
 
                     Section {
-                        Stepper("Strength: \(viewModel.calculatedStrength)",
+                        Stepper("Strength: \(viewModel.calculatedStrength.formattedString)",
                                 value: $viewModel.statStrength,
                                 in: 0 ... 20,
                                 step: 1)
 
-                        Stepper("Dexterity: \(viewModel.calculatedDexterity)",
+                        Stepper("Dexterity: \(viewModel.calculatedDexterity.formattedString)",
                                 value: $viewModel.statDexterity,
                                 in: 0 ... 20,
                                 step: 1)
 
-                        Stepper("Constitution: \(viewModel.calculatedConstitution)",
+                        Stepper("Constitution: \(viewModel.calculatedConstitution.formattedString)",
                                 value: $viewModel.statConstitution,
                                 in: 0 ... 20,
                                 step: 1)
 
-                        Stepper("Wisdom: \(viewModel.calculatedWisdom)",
+                        Stepper("Wisdom: \(viewModel.calculatedWisdom.formattedString)",
                                 value: $viewModel.statWisdom,
                                 in: 0 ... 20,
                                 step: 1)
 
-                        Stepper("Intelligence: \(viewModel.calculatedIntelligence)",
+                        Stepper("Intelligence: \(viewModel.calculatedIntelligence.formattedString)",
                                 value: $viewModel.statIntelligence,
                                 in: 0 ... 20,
                                 step: 1)
 
-                        Stepper("Charisma: \(viewModel.calculatedCharisma)", value: $viewModel.statCharisma, in: 0 ... 20, step: 1)
+                        Stepper("Charisma: \(viewModel.calculatedCharisma.formattedString)", value: $viewModel.statCharisma, in: 0 ... 20, step: 1)
                     }
+                    .listRowBackground(Color.cListBackground)
                 }
+                .listRowBackground(Color.cListBackground)
+                .scrollContentBackground(.hidden)
             }
+            .navigationTitle(viewModel.title)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button("Save", action: viewModel.onSavePress))
-            .navigationBarItems(leading: Text("MassiveRPG"))
-            .toolbarBackground(Color.cBackground, for: .navigationBar)
+            .navigationBarItems(trailing: Button("Save", action: { viewModel.onSavePress(dismiss: dismiss.callAsFunction) }))
+            .navigationBarItems(leading: Button("", systemImage: "xmark", action: dismiss.callAsFunction))
             .onChange(of: viewModel.statStrength, initial: false, viewModel.onStrengthChange)
             .onChange(of: viewModel.statDexterity, initial: false, viewModel.onDexterityChange)
             .onChange(of: viewModel.statConstitution, initial: false, viewModel.onConstitutionChange)

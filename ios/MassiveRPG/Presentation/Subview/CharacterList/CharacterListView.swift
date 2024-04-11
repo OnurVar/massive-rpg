@@ -11,60 +11,81 @@ struct CharacterListView: View {
     // MARK: Variables
 
     let viewModel: ViewModel
+    @StateObject var stateViewModel: StateViewModel = .init()
 
     // MARK: Body Component
 
     var body: some View {
-        switch viewModel.result {
-        case .empty:
-            EmptyView
-        case .content(let data, let isLoading):
-            ContentView(data: data ?? [], isLoading: isLoading)
-        case .failed(let error):
-            ErrorView(error: error)
+        VStack(spacing: Size.None) {
+            switch viewModel.result {
+            case .empty:
+                EmptyView
+            case .failed(let error):
+                ErrorView(error: error)
+            case .content(let data, let isLoading):
+                let filteredData = stateViewModel.filterData(data: data ?? [])
+                if filteredData.isEmpty, isLoading {
+                    BasicLoadingView(viewModel: .init())
+                } else {
+                    ListView(data: filteredData)
+                }
+            }
         }
+        .scrollContentBackground(.hidden)
+        .searchable(text: $stateViewModel.searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .refreshable { await viewModel.onRefresh() }
     }
 
     // MARK: Subcomponents
 
     var EmptyView: some View {
-        BasicEmptyView(viewModel: .init())
-    }
-
-    func ContentView(data: [Character], isLoading: Bool) -> some View {
-        VStack {
-            if isLoading {
-                BasicLoadingView(viewModel: .init())
-            }
-            if !data.isEmpty {
-                ScrollView {
-                    LazyVStack(spacing: Size.None) {
-                        ForEach(data) { item in
-                            CharacterListCellView(viewModel: .init(character: item))
-                        }
-                    }
-                }
-            }
+        ScrollView {
+            BasicEmptyView(viewModel: .init())
+                .customPadding(top: .ExtraExtraBig)
         }
     }
 
     func ErrorView(error: Error) -> some View {
-        BasicErrorView(viewModel: .init(error: error))
+        ScrollView {
+            BasicErrorView(viewModel: .init(error: error))
+                .customPadding(top: .ExtraExtraBig)
+        }
+    }
+
+    func ListView(data: [Character]) -> some View {
+        List {
+            ForEach(data) { item in
+                NavigationLink {
+                    CharacterDetailScreenView(viewModel: .init(character: item))
+                } label: {
+                    CharacterListCellView(viewModel: .init(character: item))
+                }
+                .listRowBackground(Color.cListBackground)
+            }
+        }
     }
 }
 
 #Preview("Example 1") {
-    CharacterListView(viewModel: .example1)
+    NavigationStack {
+        CharacterListView(viewModel: .example1)
+    }
 }
 
 #Preview("Example 2") {
-    CharacterListView(viewModel: .example2)
+    NavigationStack {
+        CharacterListView(viewModel: .example2)
+    }
 }
 
 #Preview("Example 3") {
-    CharacterListView(viewModel: .example3)
+    NavigationStack {
+        CharacterListView(viewModel: .example3)
+    }
 }
 
 #Preview("Example 4") {
-    CharacterListView(viewModel: .example4)
+    NavigationStack {
+        CharacterListView(viewModel: .example4)
+    }
 }

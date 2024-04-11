@@ -9,43 +9,61 @@ import FirebaseFirestore
 
 struct Character: Codable, Identifiable {
     @DocumentID var id: String?
-    var name: String?
-    var cRace: CharacterRace?
-    var cClass: CharacterClass?
-    var stats: CharacterStats?
-    var createdAt: String?
-    var updatedAt: String?
-    var deletedAt: String?
+    @ExplicitNull var name: String?
+    @ExplicitNull var cRace: CharacterRace?
+    @ExplicitNull var cClass: CharacterClass?
+    @ExplicitNull var cStats: CharacterStats?
+    var isDeleted: Bool
+    @ServerTimestamp var createdAt: Timestamp?
+    @ServerTimestamp var updatedAt: Timestamp?
 
     enum CodingKeys: String, CodingKey {
         case id,
              name,
              cRace = "race",
              cClass = "class",
-             stats,
+             cStats = "stats",
              createdAt = "created_at",
              updatedAt = "updated_at",
-             deletedAt = "deleted_at"
+             isDeleted = "is_deleted"
     }
 
     init(
         id: String?,
-        name: String?,
-        cRace: CharacterRace? = nil,
-        cClass: CharacterClass? = nil,
-        stats: CharacterStats? = nil,
-        createdAt: String? = nil,
-        updatedAt: String? = nil,
-        deletedAt: String? = nil
+        name: String,
+        cRace: CharacterRace,
+        cClass: CharacterClass,
+        cStats: CharacterStats,
+        isDeleted: Bool,
+        createdAt: Date?,
+        updatedAt: Date?
     ) {
         self.id = id
         self.name = name
         self.cRace = cRace
         self.cClass = cClass
-        self.stats = stats
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-        self.deletedAt = deletedAt
+        self.cStats = cStats
+        self.isDeleted = isDeleted
+
+        if let createdAt {
+            self.createdAt = .init(date: createdAt)
+        } else {
+            self.createdAt = nil
+        }
+
+        if let updatedAt {
+            self.updatedAt = .init(date: updatedAt)
+        } else {
+            self.updatedAt = nil
+        }
+    }
+
+    mutating func update(withForm form: CharacterForm) {
+        self.name = form.name
+        self.cRace = form.cRace
+        self.cClass = form.cClass
+        self.cStats = form.cStats
+        self.isDeleted = form.isDeleted
     }
 }
 
@@ -55,7 +73,12 @@ struct Character: Codable, Identifiable {
             Character(
                 id: "CHARACTER_1",
                 name: "CHARACTER_1",
-                stats: .example1
+                cRace: .Dwarf,
+                cClass: .Bard,
+                cStats: .example1,
+                isDeleted: false,
+                createdAt: nil,
+                updatedAt: nil
             )
         }
 
@@ -63,7 +86,12 @@ struct Character: Codable, Identifiable {
             Character(
                 id: "CHARACTER_2",
                 name: "CHARACTER_2",
-                stats: .example2
+                cRace: .Elf,
+                cClass: .Cleric,
+                cStats: .example2,
+                isDeleted: false,
+                createdAt: nil,
+                updatedAt: nil
             )
         }
 
@@ -71,7 +99,12 @@ struct Character: Codable, Identifiable {
             Character(
                 id: "CHARACTER_3",
                 name: "CHARACTER_3",
-                stats: .example3
+                cRace: .Orc,
+                cClass: .Fighter,
+                cStats: .example3,
+                isDeleted: false,
+                createdAt: nil,
+                updatedAt: nil
             )
         }
 
@@ -79,7 +112,12 @@ struct Character: Codable, Identifiable {
             Character(
                 id: "CHARACTER_4",
                 name: "CHARACTER_4",
-                stats: .example1
+                cRace: .Human,
+                cClass: .Rogue,
+                cStats: .example1,
+                isDeleted: false,
+                createdAt: nil,
+                updatedAt: nil
             )
         }
 
@@ -87,7 +125,12 @@ struct Character: Codable, Identifiable {
             Character(
                 id: "CHARACTER_5",
                 name: "CHARACTER_5",
-                stats: .example2
+                cRace: .default,
+                cClass: .Wizard,
+                cStats: .example2,
+                isDeleted: false,
+                createdAt: nil,
+                updatedAt: nil
             )
         }
     }

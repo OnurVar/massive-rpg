@@ -10,7 +10,13 @@ import FirebaseFirestore
 class FirebaseFirestoreDataSourceImpl: FirebaseFirestoreDataSource {
     func getCharacterList(forUserId userId: String) async throws -> [Character] {
         let db = Firestore.firestore()
-        let querySnapshot = try await db.collection(FirestoreCollectionType.Users.rawValue).document(userId).collection(FirestoreCollectionType.Characters.rawValue).getDocuments()
+
+        let querySnapshot = try await db.collection(FirestoreCollectionType.Users.rawValue)
+            .document(userId)
+            .collection(FirestoreCollectionType.Characters.rawValue)
+            .whereField("is_deleted", isEqualTo: false)
+            .getDocuments()
+
         var characters: [Character] = []
         for document in querySnapshot.documents {
             guard let character = try? document.data(as: Character.self) else {
@@ -34,27 +40,13 @@ class FirebaseFirestoreDataSourceImpl: FirebaseFirestoreDataSource {
     func createCharacter(character: Character, forUserId userId: String) async throws {
         let db = Firestore.firestore()
         let documentReference = db.collection(FirestoreCollectionType.Users.rawValue).document(userId).collection(FirestoreCollectionType.Characters.rawValue).document()
-        var characterWithTimestamp = character
-        characterWithTimestamp.createdAt = Date().toString()
-        try documentReference.setData(from: characterWithTimestamp)
+        try documentReference.setData(from: character)
     }
 
     func updateCharacter(character: Character, forId id: String, forUserId userId: String) async throws {
         let db = Firestore.firestore()
         let documentReference = db.collection(FirestoreCollectionType.Users.rawValue).document(userId).collection(FirestoreCollectionType.Characters.rawValue).document(id)
-        var characterWithTimestamp = character
-        characterWithTimestamp.updatedAt = Date().toString()
-        try documentReference.setData(from: characterWithTimestamp, merge: true)
-    }
-
-    func deleteCharacter(forId id: String, forUserId userId: String) async throws {
-        let character = try await getCharacter(forId: id, forUserId: userId)
-
-        let db = Firestore.firestore()
-        let documentReference = db.collection(FirestoreCollectionType.Users.rawValue).document(userId).collection(FirestoreCollectionType.Characters.rawValue).document(id)
-        var characterWithTimestamp = character
-        characterWithTimestamp.createdAt = Date().toString()
-        try documentReference.setData(from: characterWithTimestamp)
+        try documentReference.setData(from: character, merge: true)
     }
 }
 

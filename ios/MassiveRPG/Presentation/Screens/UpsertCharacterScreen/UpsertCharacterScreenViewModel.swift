@@ -15,6 +15,7 @@ extension UpsertCharacterScreenView {
         @Injected(\.createCharacterUseCase) private var createCharacterUseCase
         @Injected(\.updateCharacterUseCase) private var updateCharacterUseCase
 
+        let onCharacterChange: () -> Void
         let character: Character?
         let title: String
         @Published var name: String
@@ -27,19 +28,19 @@ extension UpsertCharacterScreenView {
         @Published var statIntelligence: Int
         @Published var statCharisma: Int
 
-        var calculatedStrength: Int { StatCalculator(value: statStrength).calculatedValue }
-        var calculatedDexterity: Int { StatCalculator(value: statDexterity).calculatedValue }
-        var calculatedConstitution: Int { StatCalculator(value: statConstitution).calculatedValue }
-        var calculatedWisdom: Int { StatCalculator(value: statWisdom).calculatedValue }
-        var calculatedIntelligence: Int { StatCalculator(value: statIntelligence).calculatedValue }
-        var calculatedCharisma: Int { StatCalculator(value: statCharisma).calculatedValue }
+        var calculatedStrength: Int { statStrength.calculatedStat }
+        var calculatedDexterity: Int { statDexterity.calculatedStat }
+        var calculatedConstitution: Int { statConstitution.calculatedStat }
+        var calculatedWisdom: Int { statWisdom.calculatedStat }
+        var calculatedIntelligence: Int { statIntelligence.calculatedStat }
+        var calculatedCharisma: Int { statCharisma.calculatedStat }
 
         // MARK: Life Cycle
 
-        init(model: UpsertCharacterScreenView.Model) {
-            let character = model.character
+        init(model: UpsertCharacterScreenView.Model, onCharacterChange: @escaping () -> Void) {
+            self.onCharacterChange = onCharacterChange
 
-            self.character = character
+            self.character = model.character
 
             switch model.type {
             case .Create:
@@ -53,12 +54,12 @@ extension UpsertCharacterScreenView {
             self.cClass = character?.cClass ?? .default
 
             if
-                let strength = character?.stats?.strength,
-                let dexterity = character?.stats?.dexterity,
-                let constitution = character?.stats?.constitution,
-                let wisdom = character?.stats?.wisdom,
-                let intelligence = character?.stats?.intelligence,
-                let charisma = character?.stats?.charisma,
+                let strength = character?.cStats?.strength,
+                let dexterity = character?.cStats?.dexterity,
+                let constitution = character?.cStats?.constitution,
+                let wisdom = character?.cStats?.wisdom,
+                let intelligence = character?.cStats?.intelligence,
+                let charisma = character?.cStats?.charisma,
                 CharacterStatsChecker(
                     strength: strength,
                     dexterity: dexterity,
@@ -85,10 +86,46 @@ extension UpsertCharacterScreenView {
             }
         }
 
+        // MARK: Methods
+
+        func create(form: CharacterForm, dismiss: @escaping () -> Void) {
+            Task {
+                let result = await createCharacterUseCase.execute(form: form)
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    switch result {
+                    case .success:
+                        dismiss()
+                        MassiveToast.makeToast(message: "Character is created successfully.")
+                        self.onCharacterChange()
+                    case .failure(let error):
+                        MassiveToast.makeToast(message: error.localizedDescription)
+                    }
+                }
+            }
+        }
+
+        func update(characterId: String, form: CharacterForm, dismiss: @escaping () -> Void) {
+            Task {
+                let result = await updateCharacterUseCase.execute(forId: characterId, form: form)
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    switch result {
+                    case .success:
+                        dismiss()
+                        MassiveToast.makeToast(message: "Character is updated successfully.")
+                        self.onCharacterChange()
+                    case .failure(let error):
+                        MassiveToast.makeToast(message: error.localizedDescription)
+                    }
+                }
+            }
+        }
+
         // MARK: Action Methods
 
-        func onSavePress() {
-            let newCharacterStats = CharacterStats(
+        func onSavePress(dismiss: @escaping () -> Void) {
+            let cStats = CharacterStats(
                 strength: statStrength,
                 dexterity: statDexterity,
                 constitution: statConstitution,
@@ -96,27 +133,17 @@ extension UpsertCharacterScreenView {
                 intelligence: statIntelligence,
                 charisma: statCharisma
             )
-
-            if let characterId = character?.id {
-                let newCharacter = Character(
-                    id: characterId,
-                    name: name,
-                    cRace: cRace,
-                    cClass: cClass,
-                    stats: newCharacterStats,
-                    createdAt: Date().toString()
-                )
-                update(newCharacter: newCharacter, characterId: characterId)
+            let form = CharacterForm(
+                name: name,
+                cRace: cRace,
+                cClass: cClass,
+                cStats: cStats,
+                isDeleted: false
+            )
+            if let character, let characterId = character.id {
+                update(characterId: characterId, form: form, dismiss: dismiss)
             } else {
-                let newCharacter = Character(
-                    id: nil,
-                    name: name,
-                    cRace: cRace,
-                    cClass: cClass,
-                    stats: newCharacterStats,
-                    createdAt: Date().toString()
-                )
-                create(newCharacter: newCharacter)
+                create(form: form, dismiss: dismiss)
             }
         }
 
@@ -216,49 +243,17 @@ extension UpsertCharacterScreenView {
             }
         }
 
-        // MARK: Methods
-
-        func create(newCharacter: Character) {
-            Task {
-                let result = await createCharacterUseCase.execute(character: newCharacter)
-                await MainActor.run { [weak self] in
-                    guard let self else { return }
-                    switch result {
-                    case .success:
-                        MassiveToast.makeToast(message: "Character is created successfully.")
-                    case .failure(let error):
-                        MassiveToast.makeToast(message: error.localizedDescription)
-                    }
-                }
-            }
-        }
-
-        func update(newCharacter: Character, characterId: String) {
-            Task {
-                let result = await updateCharacterUseCase.execute(character: newCharacter, forId: characterId)
-                await MainActor.run { [weak self] in
-                    guard let self else { return }
-                    switch result {
-                    case .success:
-                        MassiveToast.makeToast(message: "Character is updated successfully.")
-                    case .failure(let error):
-                        MassiveToast.makeToast(message: error.localizedDescription)
-                    }
-                }
-            }
-        }
-
 #if DEBUG
 
         // MARK: Examples
 
         static var example1: ViewModel {
-            let viewModel = ViewModel(model: .init(type: .Create))
+            let viewModel = ViewModel(model: .init(type: .Create), onCharacterChange: {})
             return viewModel
         }
 
         static var example2: ViewModel {
-            let viewModel = ViewModel(model: .init(type: .Update(character: .example1)))
+            let viewModel = ViewModel(model: .init(type: .Update(character: .example1)), onCharacterChange: {})
             return viewModel
         }
 #endif
@@ -271,7 +266,6 @@ extension UpsertCharacterScreenView {
 
         let id: String
         let type: UpsertCharacterScreenType
-
         var character: Character? {
             switch type {
             case .Create:

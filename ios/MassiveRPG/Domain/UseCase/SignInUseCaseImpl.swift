@@ -21,6 +21,6 @@ class SignInUseCaseImpl: SignInUseCase {
     // MARK: Methods
 
     func execute(viewController: UIViewController) async -> Result<User, Error> {
-        return try await authRepository.signIn(viewController: viewController)
+        return await authRepository.signIn(viewController: viewController)
     }
 }

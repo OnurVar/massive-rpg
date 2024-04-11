@@ -15,11 +15,14 @@ struct CharacterListCellView: View {
     // MARK: Body Component
 
     var body: some View {
-        VStack {
-            Text("Name: \(viewModel.character.name ?? "")")
+        VStack(alignment: .leading) {
+            Text(viewModel.title)
+                .labelStyle(.titleAndIcon)
+                .font(.title2)
+            Text(viewModel.subtitle)
+                .font(.callout)
         }
-        .frame(height: 50)
-        .background(Color.black.opacity(0.1))
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

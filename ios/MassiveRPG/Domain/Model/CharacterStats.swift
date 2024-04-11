@@ -6,12 +6,39 @@
 //
 
 struct CharacterStats: Codable {
-    var strength: Int?
-    var dexterity: Int?
-    var constitution: Int?
-    var wisdom: Int?
-    var intelligence: Int?
-    var charisma: Int?
+    let strength: Int
+    let dexterity: Int
+    let constitution: Int
+    let wisdom: Int
+    let intelligence: Int
+    let charisma: Int
+
+    init(
+        strength: Int,
+        dexterity: Int,
+        constitution: Int,
+        wisdom: Int,
+        intelligence: Int,
+        charisma: Int
+    ) {
+        self.strength = strength
+        self.dexterity = dexterity
+        self.constitution = constitution
+        self.wisdom = wisdom
+        self.intelligence = intelligence
+        self.charisma = charisma
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.strength = try container.decode(Int.self, forKey: .strength)
+        self.dexterity = try container.decode(Int.self, forKey: .dexterity)
+        self.constitution = try container.decode(Int.self, forKey: .constitution)
+        self.wisdom = try container.decode(Int.self, forKey: .wisdom)
+        self.intelligence = try container.decode(Int.self, forKey: .intelligence)
+        self.charisma = try container.decode(Int.self, forKey: .charisma)
+    }
 }
 
 #if DEBUG

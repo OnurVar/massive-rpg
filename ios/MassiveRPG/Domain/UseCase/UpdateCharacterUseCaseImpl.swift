@@ -18,7 +18,7 @@ class UpdateCharacterUseCaseImpl: UpdateCharacterUseCase {
 
     // MARK: Methods
 
-    func execute(character: Character, forId id: String) async -> Result<Void, Error> {
-        return await characterRepository.update(character: character, forId: id)
+    func execute(forId id: String, form: CharacterForm) async -> Result<Void, Error> {
+        return await characterRepository.update(forId: id, form: form)
     }
 }

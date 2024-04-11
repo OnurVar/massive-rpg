@@ -27,6 +27,7 @@ class CharacterRepositoryImpl: CharacterRepository {
 
         do {
             let characters = try await firebaseFirestoreDataSource.getCharacterList(forUserId: userId)
+            print(characters)
             return .success(characters)
         } catch {
             return .failure(error)
@@ -39,6 +40,7 @@ class CharacterRepositoryImpl: CharacterRepository {
         }
 
         do {
+            // Get character
             let character = try await firebaseFirestoreDataSource.getCharacter(forId: id, forUserId: userId)
             return .success(character)
         } catch {
@@ -46,12 +48,25 @@ class CharacterRepositoryImpl: CharacterRepository {
         }
     }
 
-    func create(character: Character) async -> Result<Void, Error> {
+    func create(form: CharacterForm) async -> Result<Void, Error> {
         guard let userId = userContextDataSource.user?.id else {
             return .failure(MassiveRPGAppError.CurrentUserNotFound)
         }
 
         do {
+            // Create character
+            let character = Character(
+                id: nil,
+                name: form.name,
+                cRace: form.cRace,
+                cClass: form.cClass,
+                cStats: form.cStats,
+                isDeleted: false,
+                createdAt: nil,
+                updatedAt: nil
+            )
+
+            // Save character
             try await firebaseFirestoreDataSource.createCharacter(character: character, forUserId: userId)
             return .success(())
         } catch {
@@ -59,12 +74,20 @@ class CharacterRepositoryImpl: CharacterRepository {
         }
     }
 
-    func update(character: Character, forId id: String) async -> Result<Void, Error> {
+    func update(forId id: String, form: CharacterForm) async -> Result<Void, Error> {
         guard let userId = userContextDataSource.user?.id else {
             return .failure(MassiveRPGAppError.CurrentUserNotFound)
         }
 
         do {
+            // Get character
+            var character = try await firebaseFirestoreDataSource.getCharacter(forId: id, forUserId: userId)
+
+            // Update character
+            character.update(withForm: form)
+            character.updatedAt = .init()
+
+            // Save character
             try await firebaseFirestoreDataSource.updateCharacter(character: character, forId: id, forUserId: userId)
             return .success(())
         } catch {
@@ -72,13 +95,21 @@ class CharacterRepositoryImpl: CharacterRepository {
         }
     }
 
-    func delete(forId id: String) async -> Result<Void, Error> {
+    func delete(forId id: String) async -> Result<Void, any Error> {
         guard let userId = userContextDataSource.user?.id else {
             return .failure(MassiveRPGAppError.CurrentUserNotFound)
         }
 
         do {
-            try await firebaseFirestoreDataSource.deleteCharacter(forId: id, forUserId: userId)
+            // Get character
+            var character = try await firebaseFirestoreDataSource.getCharacter(forId: id, forUserId: userId)
+
+            // Delete character
+            character.isDeleted = true
+            character.updatedAt = .init()
+
+            // Save character
+            try await firebaseFirestoreDataSource.updateCharacter(character: character, forId: id, forUserId: userId)
             return .success(())
         } catch {
             return .failure(error)
