@@ -78,6 +78,7 @@ extension CharacterDetailScreenView {
                     case .success:
                         self.isLoadingDelete = false
                         dismiss()
+                        MassiveToast.makeToast(message: "Character is deleted successfully.")
                     case .failure(let error):
                         MassiveToast.makeToast(message: error.localizedDescription)
                     }

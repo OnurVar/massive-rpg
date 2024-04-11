@@ -39,6 +39,14 @@ extension CharacterListView {
             self.onRefresh = onRefresh
         }
 
+        // MARK: Action Methods
+
+        func onCharacterDelete() {
+            Task {
+                await onRefresh()
+            }
+        }
+
 #if DEBUG
 
         // MARK: Examples

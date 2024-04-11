@@ -58,7 +58,7 @@ struct CharacterListView: View {
                 NavigationLink {
                     CharacterDetailScreenView(viewModel: .init(character: item))
                 } label: {
-                    CharacterListCellView(viewModel: .init(character: item))
+                    CharacterListCellView(character: item, onCharacterDelete: viewModel.onCharacterDelete)
                 }
                 .listRowBackground(Color.cListBackground)
             }
